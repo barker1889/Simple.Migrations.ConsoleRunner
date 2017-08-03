@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\OutputWriterSpy.cs" />
     <Compile Include="LoadSettingsTests.cs" />
     <Compile Include="MigrationRunnerTests.cs" />
+    <Compile Include="Process\NoOpProcessTests.cs" />
     <Compile Include="Process\VersionValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,5 +68,6 @@
       <Name>Simple.Migrations.ConsoleRunner</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

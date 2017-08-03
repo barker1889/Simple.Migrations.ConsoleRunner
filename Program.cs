@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Data.SqlClient;
 using System.Reflection;
+using Simple.Migrations.ConsoleRunner.Output;
 using Simple.Migrations.ConsoleRunner.Process;
 using SimpleMigrations;
 using SimpleMigrations.DatabaseProvider;
@@ -20,10 +21,12 @@ namespace Simple.Migrations.ConsoleRunner
 
             var settings = Settings.LoadFromArgs(args);
 
+            var outputWriter = new ConsoleWriter();
+
             using (var connection = new SqlConnection(settings.ConnectionString))
             {
                 var migrator = CreateMigrator(connection);
-                new MigrationRunner(migrator, new VersionValidator()).Execute(settings);
+                new MigrationRunner(migrator, new VersionValidator(), new NoOpProcess(outputWriter)).Execute(settings);
             }
         }
 

@@ -46,7 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\MigrationDataCollectionExtensions.cs" />
+    <Compile Include="Extensions\MigratorExtensions.cs" />
     <Compile Include="MigrationRunner.cs" />
+    <Compile Include="Output\ConsoleWriter.cs" />
+    <Compile Include="Process\NoOpProcess.cs" />
     <Compile Include="Process\VersionValidator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -17,6 +17,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
         private Settings _settings;
         private Mock<ISimpleMigrator> _migrator;
         private Mock<IVersionValidator> _versionValidator;
+        private Mock<INoOpProcess> _noOpProcess;
 
         [OneTimeSetUp]
         public void WhenRunningMigrationFromSettings()
@@ -26,11 +27,13 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 .Setup(v => v.Validate(It.IsAny<ISimpleMigrator>(), It.IsAny<Settings>()))
                 .Returns(VersionValidation.Valid);
 
-            _settings = new Settings("connection", 1, Mode.Apply);
+            _noOpProcess = new Mock<INoOpProcess>();
+            
+            _settings = new Settings("connection", 1, Mode.NoOp);
 
             _migrator = new Mock<ISimpleMigrator>();
 
-            var runner = new MigrationRunner(_migrator.Object, _versionValidator.Object);
+            var runner = new MigrationRunner(_migrator.Object, _versionValidator.Object, _noOpProcess.Object);
             runner.Execute(_settings);
         }
 
@@ -38,6 +41,12 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
         public void ThenTheSettingsAreValidated()
         {
             _versionValidator.Verify(v => v.Validate(_migrator.Object, _settings));
+        }
+
+        [Test]
+        public void ThenTheNoOpProcessIsRun()
+        {
+            _noOpProcess.Verify(n => n.Run(_migrator.Object, _settings.TargetVersion));
         }
     }
 }
