@@ -31,7 +31,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
                     new MigrationData(3, "third", typeof(MigrationData).GetTypeInfo()),
                     new MigrationData(4, "fourth", typeof(MigrationData).GetTypeInfo()),
                     new MigrationData(5, "fifth", typeof(MigrationData).GetTypeInfo()),
-                    new MigrationData(6, "sixth", typeof(MigrationData).GetTypeInfo()),
+                    new MigrationData(6, "sixth", typeof(MigrationData).GetTypeInfo())
                 };
 
                 _migrator = new Mock<ISimpleMigrator>();

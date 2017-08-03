@@ -55,6 +55,7 @@
     <Compile Include="Helpers\OutputWriterSpy.cs" />
     <Compile Include="LoadSettingsTests.cs" />
     <Compile Include="MigrationRunnerTests.cs" />
+    <Compile Include="Process\ApplyProcessTests.cs" />
     <Compile Include="Process\NoOpProcessTests.cs" />
     <Compile Include="Process\VersionValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
