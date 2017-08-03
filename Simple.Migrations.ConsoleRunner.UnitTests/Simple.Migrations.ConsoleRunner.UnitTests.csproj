@@ -64,7 +64,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Simple.Migrations.ConsoleRunner.csproj">
+    <ProjectReference Include="..\Simple.Migrations.ConsoleRunner\Simple.Migrations.ConsoleRunner.csproj">
       <Project>{87301FCD-0651-4C6F-A75F-6CD360DC6735}</Project>
       <Name>Simple.Migrations.ConsoleRunner</Name>
     </ProjectReference>

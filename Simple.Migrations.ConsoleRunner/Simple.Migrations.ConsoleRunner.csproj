@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simple.Migrations, Version=0.9.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Simple.Migrations.0.9.14\lib\net45\Simple.Migrations.dll</HintPath>
+    <Reference Include="Simple.Migrations">
+      <HintPath>..\packages\Simple.Migrations.0.9.14\lib\net45\Simple.Migrations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
