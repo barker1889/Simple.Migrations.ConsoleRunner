@@ -35,7 +35,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
         [Test]
         public void ValidSettingsReturnsSuccess()
         {
-            var settings = new Settings("connection", 3, Mode.Apply);
+            var settings = new Settings("connection", 3, Mode.Apply, "test.dll");
 
             var result = _versionValidator.Validate(_migrator.Object, settings);
 
@@ -45,7 +45,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
         [Test]
         public void TargetVersionCannotBeGreaterThanLatestVersion()
         {
-            var settings = new Settings("connection", 4, Mode.Apply);
+            var settings = new Settings("connection", 4, Mode.Apply, "test.dll");
 
             var result = _versionValidator.Validate(_migrator.Object, settings);
 
@@ -55,7 +55,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
         [Test]
         public void TargetVersionCannotBeSameAsTheCurrentVersion()
         {
-            var settings = new Settings("connection", 2, Mode.Apply);
+            var settings = new Settings("connection", 2, Mode.Apply, "test.dll");
 
             var result = _versionValidator.Validate(_migrator.Object, settings);
 
@@ -65,7 +65,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
         [Test]
         public void TargetVersionMustExist()
         {
-            var settings = new Settings("connection", -1, Mode.Apply);
+            var settings = new Settings("connection", -1, Mode.Apply, "test.dll");
 
             var result = _versionValidator.Validate(_migrator.Object, settings);
 

@@ -5,9 +5,10 @@ namespace Simple.Migrations.ConsoleRunner
 {
     public class Settings
     {
-        public Settings(string connectionString, long targetVersion, Mode mode)
+        public Settings(string connectionString, long targetVersion, Mode mode, string migrationAssemblyPath)
         {
             Mode = mode;
+            MigrationAssemblyPath = migrationAssemblyPath;
             ConnectionString = connectionString;
             TargetVersion = targetVersion;
         }
@@ -15,14 +16,15 @@ namespace Simple.Migrations.ConsoleRunner
         public long TargetVersion { get; }
         public string ConnectionString { get; }
         public Mode Mode { get; }
+        public string MigrationAssemblyPath { get; }
 
         public static Settings LoadFromArgs(string[] args)
         {
-            var targetVersion = long.Parse(GetParamFromArgs(args, "--version"));
-            var mode = (Mode)Enum.Parse(typeof(Mode), GetParamFromArgs(args, "--mode"), true);
-            var connectionString = GetParamFromArgs(args, "--connection-string");
-
-            return new Settings(connectionString, targetVersion, mode);
+            return new Settings(
+                GetParamFromArgs(args, "--connection-string"), 
+                long.Parse(GetParamFromArgs(args, "--version")), 
+                (Mode)Enum.Parse(typeof(Mode), GetParamFromArgs(args, "--mode"), true), 
+                GetParamFromArgs(args, "--migrations"));
         }
 
         private static string GetParamFromArgs(string[] args, string paramName)

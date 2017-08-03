@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Castle.Components.DictionaryAdapter;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using Simple.Migrations.ConsoleRunner.Process;
 using SimpleMigrations;
@@ -29,7 +23,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
 
             _noOpProcess = new Mock<INoOpProcess>();
             
-            _settings = new Settings("connection", 1, Mode.NoOp);
+            _settings = new Settings("connection", 1, Mode.NoOp, "test.dll");
 
             _migrator = new Mock<ISimpleMigrator>();
 

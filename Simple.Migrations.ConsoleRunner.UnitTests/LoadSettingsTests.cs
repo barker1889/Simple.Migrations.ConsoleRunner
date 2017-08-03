@@ -11,16 +11,20 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
         {
             private Settings _result;
             private string _connectionString;
+            private string _migrationsAssembly;
 
             [OneTimeSetUp]
             public void WhenLoadingSettingsFromArgs()
             {
+                _migrationsAssembly = "../MyMigrations.dll";
                 _connectionString = "Server=.;Trusted_Connection=True;Database=Test";
+
                 var inputArgs = new[]
                 {
                     "--version", "100",
                     "--Mode", "Apply",
-                    "--CONNECTION-STRING", _connectionString
+                    "--CONNECTION-STRING", _connectionString,
+                    "--migrations", _migrationsAssembly
                 };
 
                 _result = Settings.LoadFromArgs(inputArgs);
@@ -32,6 +36,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 Assert.That(_result.ConnectionString, Is.EqualTo(_connectionString));
                 Assert.That(_result.TargetVersion, Is.EqualTo(100));
                 Assert.That(_result.Mode, Is.EqualTo(Mode.Apply));
+                Assert.That(_result.MigrationAssemblyPath, Is.EqualTo(_migrationsAssembly));
             }
         }
 
