@@ -22,7 +22,7 @@ namespace Simple.Migrations.ConsoleRunner
         {
             //args = new[]
             //{
-            //    "--version", "3",
+            //    "--version", "1",
             //    "--mode", "noop",
             //    "--connection-string", "Server=.;Trusted_connection=true;Database=Test;",
             //    "--migrations", "..\\..\\..\\SampleMigrations\\bin\\Debug\\SampleMigrations.dll"
