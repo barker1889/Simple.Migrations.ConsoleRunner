@@ -29,7 +29,9 @@ namespace Simple.Migrations.ConsoleRunner
             using (var connection = new SqlConnection(settings.ConnectionString))
             {
                 var migrator = CreateMigrator(connection, settings.MigrationAssemblyPath);
-                new MigrationRunner(migrator, new VersionValidator(), new NoOpProcess(outputWriter), new ApplyProcess(outputWriter))
+
+
+                new MigrationRunner(migrator, new VersionValidator(), new NoOpProcess(outputWriter), new ApplyProcess(outputWriter), new VersionOutputHelper(outputWriter))
                     .Execute(settings);
             }
         }

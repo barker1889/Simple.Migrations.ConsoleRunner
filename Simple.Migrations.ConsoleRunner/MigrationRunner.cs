@@ -1,4 +1,5 @@
 ﻿using System;
+using Simple.Migrations.ConsoleRunner.Output;
 using Simple.Migrations.ConsoleRunner.Process;
 using SimpleMigrations;
 
@@ -10,17 +11,26 @@ namespace Simple.Migrations.ConsoleRunner
         private readonly IVersionValidator _versionValidator;
         private readonly INoOpProcess _noOpProcess;
         private readonly IApplyProcess _applyProcess;
+        private readonly IVersionOutputHelper _versionOutputHelper;
 
-        public MigrationRunner(ISimpleMigrator migrator, IVersionValidator versionValidator, INoOpProcess noOpProcess, IApplyProcess applyProcess)
+        public MigrationRunner(
+            ISimpleMigrator migrator, 
+            IVersionValidator versionValidator, 
+            INoOpProcess noOpProcess, 
+            IApplyProcess applyProcess, 
+            IVersionOutputHelper versionOutputHelper)
         {
             _migrator = migrator;
             _versionValidator = versionValidator;
             _noOpProcess = noOpProcess;
             _applyProcess = applyProcess;
+            _versionOutputHelper = versionOutputHelper;
         }
 
         public void Execute(Settings settings)
         {
+            _versionOutputHelper.WriteVersionSection(_migrator, settings);
+
             if (_versionValidator.Validate(_migrator, settings) != VersionValidation.Valid)
             {
                 return;

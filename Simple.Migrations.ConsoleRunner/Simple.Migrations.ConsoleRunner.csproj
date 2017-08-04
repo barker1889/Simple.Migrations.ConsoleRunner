@@ -50,6 +50,7 @@
     <Compile Include="Extensions\MigratorExtensions.cs" />
     <Compile Include="MigrationRunner.cs" />
     <Compile Include="Output\ConsoleWriter.cs" />
+    <Compile Include="Output\VersionOutputHelper.cs" />
     <Compile Include="Process\ApplyProcess.cs" />
     <Compile Include="Process\NoOpProcess.cs" />
     <Compile Include="Process\VersionValidator.cs" />
