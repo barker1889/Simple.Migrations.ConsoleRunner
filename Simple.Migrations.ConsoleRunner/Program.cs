@@ -18,8 +18,8 @@ namespace Simple.Migrations.ConsoleRunner
             //{
             //    "--version", "3",
             //    "--mode", "noop",
-            //    "--connectionstring", "Server=.;Trusted_connection=true;Database=Test;",
-            //    "--migrations", "SampleMigrations.dll"
+            //    "--connection-string", "Server=.;Trusted_connection=true;Database=Test;",
+            //    "--migrations", "..\\..\\..\\SampleMigrations\\bin\\Debug\\SampleMigrations.dll"
             //};
 
             var settings = Settings.LoadFromArgs(args);
