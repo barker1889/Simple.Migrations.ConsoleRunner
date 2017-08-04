@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Simple.Migrations.ConsoleRunner.Output;
 
 namespace Simple.Migrations.ConsoleRunner.UnitTests.Helpers
 {
     public class OutputWriterSpy : IOutputWriter
     {
-        private readonly List<string> _output = new List<string>();
+        private List<string> _output = new List<string>();
 
         private string _currentLine = string.Empty;
 
@@ -27,6 +26,12 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Helpers
             return index < _output.Count 
                 ? _output[index] 
                 : null;
+        }
+
+        public void Clear()
+        {
+            _output = new List<string>();
+            _currentLine = string.Empty;
         }
     }
 }

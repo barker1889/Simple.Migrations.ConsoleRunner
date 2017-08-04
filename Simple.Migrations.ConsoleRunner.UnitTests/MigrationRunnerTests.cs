@@ -18,6 +18,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
             private Mock<ISimpleMigrator> _migrator;
             private Settings _settings;
             private Mock<IVersionOutputHelper> _versionOutputHelper;
+            private bool _result;
 
             [OneTimeSetUp]
             public void WhenRunningMigrationFromSettings()
@@ -36,7 +37,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 _versionOutputHelper = new Mock<IVersionOutputHelper>();
 
                 var runner = new MigrationRunner(_migrator.Object, _versionValidator.Object, _noOpProcess.Object, _applyProcess.Object, _versionOutputHelper.Object);
-                runner.Execute(_settings);
+                _result = runner.Execute(_settings);
             }
 
             [Test]
@@ -57,6 +58,12 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 _noOpProcess.Verify(p => p.Run(It.IsAny<ISimpleMigrator>(), It.IsAny<long>()), Times.Never);
                 _applyProcess.Verify(p => p.Run(It.IsAny<ISimpleMigrator>(), It.IsAny<long>()), Times.Never);
             }
+
+            [Test]
+            public void ThenTheResultIsFalse()
+            {
+                Assert.That(_result, Is.False);
+            }
         }
 
         [TestFixture]
@@ -67,6 +74,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
             private Mock<IVersionValidator> _versionValidator;
             private Mock<INoOpProcess> _noOpProcess;
             private Mock<IVersionOutputHelper> _versionOutputHelper;
+            private bool _result;
 
             [OneTimeSetUp]
             public void WhenRunningMigrationFromSettings()
@@ -85,7 +93,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 _versionOutputHelper = new Mock<IVersionOutputHelper>();
 
                 var runner = new MigrationRunner(_migrator.Object, _versionValidator.Object, _noOpProcess.Object, null, _versionOutputHelper.Object);
-                runner.Execute(_settings);
+                _result = runner.Execute(_settings);
             }
 
             [Test]
@@ -105,6 +113,12 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
             {
                 _noOpProcess.Verify(n => n.Run(_migrator.Object, _settings.TargetVersion));
             }
+
+            [Test]
+            public void ThenTheResultIsTrue()
+            {
+                Assert.That(_result, Is.True);
+            }
         }
 
         [TestFixture]
@@ -115,6 +129,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
             private Mock<IVersionValidator> _versionValidator;
             private Mock<IApplyProcess> _applyProcess;
             private Mock<IVersionOutputHelper> _versionOutputHelper;
+            private bool _result;
 
             [OneTimeSetUp]
             public void WhenRunningMigrationFromSettings()
@@ -133,7 +148,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 _versionOutputHelper = new Mock<IVersionOutputHelper>();
                 
                 var runner = new MigrationRunner(_migrator.Object, _versionValidator.Object, null, _applyProcess.Object, _versionOutputHelper.Object);
-                runner.Execute(_settings);
+                _result = runner.Execute(_settings);
             }
 
             [Test]
@@ -152,6 +167,12 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
             public void ThenTheApplyProcessIsRun()
             {
                 _applyProcess.Verify(n => n.Run(_migrator.Object, _settings.TargetVersion));
+            }
+
+            [Test]
+            public void ThenTheResultIsTrue()
+            {
+                Assert.That(_result, Is.True);
             }
         }
     }

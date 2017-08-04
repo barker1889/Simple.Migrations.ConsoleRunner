@@ -27,13 +27,13 @@ namespace Simple.Migrations.ConsoleRunner
             _versionOutputHelper = versionOutputHelper;
         }
 
-        public void Execute(Settings settings)
+        public bool Execute(Settings settings)
         {
             _versionOutputHelper.WriteVersionSection(_migrator, settings);
 
             if (_versionValidator.Validate(_migrator, settings) != VersionValidation.Valid)
             {
-                return;
+                return false;
             }
 
             switch (settings.Mode)
@@ -47,6 +47,8 @@ namespace Simple.Migrations.ConsoleRunner
                 default:
                     throw new ArgumentException($"Unknown mode: '{settings.Mode}'");
             }
+
+            return true;
         }
     }
 }

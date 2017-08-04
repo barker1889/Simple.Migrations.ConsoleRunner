@@ -3,6 +3,7 @@ using System.Reflection;
 using Moq;
 using NUnit.Framework;
 using Simple.Migrations.ConsoleRunner.Process;
+using Simple.Migrations.ConsoleRunner.UnitTests.Helpers;
 using SimpleMigrations;
 
 namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
@@ -12,10 +13,12 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
     {
         private VersionValidator _versionValidator;
         private Mock<ISimpleMigrator> _migrator;
+        private OutputWriterSpy _outputWriter;
 
         [OneTimeSetUp]
         public void GivenThreeMigrationsAndCurrentlyOnVersionTwo()
         {
+            _outputWriter = new OutputWriterSpy();
 
             var allMigrations = new List<MigrationData>
             {
@@ -29,7 +32,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
             _migrator.SetupGet(m => m.LatestMigration).Returns(allMigrations[2]);
             _migrator.SetupGet(m => m.Migrations).Returns(allMigrations);
 
-            _versionValidator = new VersionValidator();
+            _versionValidator = new VersionValidator(_outputWriter);
         }
 
         [Test]
@@ -47,9 +50,11 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
         {
             var settings = new Settings("connection", 4, Mode.Apply, "test.dll");
 
+            _outputWriter.Clear();        
             var result = _versionValidator.Validate(_migrator.Object, settings);
 
             Assert.That(result, Is.EqualTo(VersionValidation.TargetVersionHigherThanLatest));
+            Assert.That(_outputWriter.GetLine(0), Is.EqualTo("Target database version (4) is higher than the latest migration: 3 - third"));
         }
 
         [Test]
@@ -57,9 +62,11 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
         {
             var settings = new Settings("connection", 2, Mode.Apply, "test.dll");
 
+            _outputWriter.Clear();
             var result = _versionValidator.Validate(_migrator.Object, settings);
-
+            
             Assert.That(result, Is.EqualTo(VersionValidation.TargetVersionIsSameAsCurrent));
+            Assert.That(_outputWriter.GetLine(0), Is.EqualTo("Target version is same as the current: 2 - second (current)"));
         }
 
         [Test]
@@ -67,9 +74,11 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
         {
             var settings = new Settings("connection", -1, Mode.Apply, "test.dll");
 
+            _outputWriter.Clear();
             var result = _versionValidator.Validate(_migrator.Object, settings);
 
             Assert.That(result, Is.EqualTo(VersionValidation.CannotFindTargetVersion));
+            Assert.That(_outputWriter.GetLine(0), Is.EqualTo("Could not find migration number -1"));
         }
     }
 }

@@ -10,9 +10,15 @@ using SimpleMigrations.DatabaseProvider;
 
 namespace Simple.Migrations.ConsoleRunner
 {
+    internal enum ExitCode
+    {
+        Success = 0,
+        InvalidInput = 1
+    }
+
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             //args = new[]
             //{
@@ -24,16 +30,18 @@ namespace Simple.Migrations.ConsoleRunner
 
             var settings = Settings.LoadFromArgs(args);
 
+            bool migrationSuccess;
             var outputWriter = new ConsoleWriter();
 
             using (var connection = new SqlConnection(settings.ConnectionString))
             {
                 var migrator = CreateMigrator(connection, settings.MigrationAssemblyPath);
-
-
-                new MigrationRunner(migrator, new VersionValidator(), new NoOpProcess(outputWriter), new ApplyProcess(outputWriter), new VersionOutputHelper(outputWriter))
+                
+                migrationSuccess = new MigrationRunner(migrator, new VersionValidator(outputWriter), new NoOpProcess(outputWriter), new ApplyProcess(outputWriter), new VersionOutputHelper(outputWriter))
                     .Execute(settings);
             }
+
+            return migrationSuccess ? (int)ExitCode.Success : (int)ExitCode.InvalidInput;
         }
 
         private static SimpleMigrator CreateMigrator(DbConnection connection, string migrationAssemblyPath)
