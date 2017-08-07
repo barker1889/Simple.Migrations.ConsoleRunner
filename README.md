@@ -5,6 +5,7 @@ Changes can be rolled forwards or backwards, simply specify the version and the 
 
 # Limitations
 This version currently only supports MS SQL Server
+Doesn't support using a baseline version
 
 # Pre-requisites
 Requires a dll with migration classes. See the sample migrations project in this repo https://github.com/barker1889/Simple.Migrations.ConsoleRunner/tree/master/SampleMigrations.
@@ -20,6 +21,6 @@ Run via a command line. The command line requires the following parameters
 * --connection-string: SQL Server connection string e.g "Server=.;Trusted_Connection=True;Database=MyTestDb;"
 * --version: The migration number
 * --mode: Either NoOp or Apply
-  * *"noop"* will just display the changes. No migrations will be applied - the database will only be used to read the current version
+  * *"noop"* will just display the changes. No migrations will be applied. A version table will be created if it doesn't exist
   * *"apply"* will actually run the migrations
 * --migrations: This is the path to the dll that contains the migrations. It can be absolute or relative.
