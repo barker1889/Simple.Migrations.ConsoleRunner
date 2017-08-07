@@ -55,8 +55,8 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests.Process
             [Test]
             public void ThenEachMigrationVersionIsOutput()
             {
-                Assert.That(_outputWriter.GetLine(0), Is.EqualTo("Applying version 3 - third...Done"));
-                Assert.That(_outputWriter.GetLine(1), Is.EqualTo("Applying version 4 - fourth...Done"));
+                Assert.That(_outputWriter.GetLine(0), Is.EqualTo("Applying version 3 (Up) - third...Done"));
+                Assert.That(_outputWriter.GetLine(1), Is.EqualTo("Applying version 4 (Up) - fourth...Done"));
             }
 
         }
