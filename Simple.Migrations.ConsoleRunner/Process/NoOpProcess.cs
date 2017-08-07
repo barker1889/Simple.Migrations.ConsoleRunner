@@ -47,11 +47,12 @@ namespace Simple.Migrations.ConsoleRunner.Process
 
         private void WriteVersionsToBeApplied(ISimpleMigrator migrator, long targetVersion)
         {
-            var versionsToBeApplied = migrator.Migrations.VersionsToBeApplied(migrator.CurrentMigration.Version, targetVersion);
+            var versionsToBeApplied = migrator.Migrations.VersionsToBeAppliedNoop(migrator.CurrentMigration.Version, targetVersion);
 
             _outputWriter.WriteLine("The following migrations will be applied:");
 
             var action = migrator.IsRollBack(targetVersion) ? "Down" : "Up";
+
             foreach (var versionToApply in versionsToBeApplied)
             {
                 _outputWriter.WriteLine($"\t{versionToApply.Version} ({action}) - {versionToApply.Description}");

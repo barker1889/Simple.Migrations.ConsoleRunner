@@ -36,7 +36,9 @@ namespace Simple.Migrations.ConsoleRunner
             using (var connection = new SqlConnection(settings.ConnectionString))
             {
                 var migrator = CreateMigrator(connection, settings.MigrationAssemblyPath);
-                
+
+                settings.UpdateTargetMigration(migrator.LatestMigration.Version);
+
                 migrationSuccess = new MigrationRunner(migrator, new VersionValidator(outputWriter), new NoOpProcess(outputWriter), new ApplyProcess(outputWriter), new VersionOutputHelper(outputWriter))
                     .Execute(settings);
             }
@@ -56,9 +58,7 @@ namespace Simple.Migrations.ConsoleRunner
 
         private static Assembly GetMigrationAssembly(string migrationAssemblyPath)
         {
-            var executingDirectory = new Uri(Assembly.GetEntryAssembly().CodeBase).AbsolutePath;
-            var currentDirectory = Path.GetDirectoryName(executingDirectory);
-
+            var currentDirectory = Environment.CurrentDirectory;
             var path = Path.GetFullPath(Path.Combine(currentDirectory, migrationAssemblyPath));
 
             return Assembly.LoadFile(Uri.UnescapeDataString(path));
