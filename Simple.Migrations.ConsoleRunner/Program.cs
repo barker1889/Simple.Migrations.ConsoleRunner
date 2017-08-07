@@ -35,7 +35,7 @@ namespace Simple.Migrations.ConsoleRunner
 
             using (var connection = new SqlConnection(settings.ConnectionString))
             {
-                var migrator = CreateMigrator(connection, settings.MigrationAssemblyPath);
+                var migrator = CreateMigrator(connection, settings);
 
                 settings.UpdateTargetMigration(migrator.LatestMigration.Version);
 
@@ -46,11 +46,11 @@ namespace Simple.Migrations.ConsoleRunner
             return migrationSuccess ? (int)ExitCode.Success : (int)ExitCode.InvalidInput;
         }
 
-        private static SimpleMigrator CreateMigrator(DbConnection connection, string migrationAssemblyPath)
+        private static SimpleMigrator CreateMigrator(DbConnection connection, Settings settings)
         {
-            var migrationAssembly = GetMigrationAssembly(migrationAssemblyPath);
+            var migrationAssembly = GetMigrationAssembly(settings.MigrationAssemblyPath);
 
-            var provider = new MssqlDatabaseProvider(connection);
+            var provider = new MssqlDatabaseProvider(connection) { SchemaName = settings.VersionTableSchema };
             var migrator = new SimpleMigrator(migrationAssembly, provider);
             migrator.Load();
             return migrator;

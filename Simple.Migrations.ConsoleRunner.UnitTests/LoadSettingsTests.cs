@@ -12,19 +12,22 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
             private Settings _result;
             private string _connectionString;
             private string _migrationsAssembly;
+            private string _versionSchema;
 
             [OneTimeSetUp]
             public void WhenLoadingSettingsFromArgs()
             {
                 _migrationsAssembly = "../MyMigrations.dll";
                 _connectionString = "Server=.;Trusted_Connection=True;Database=Test";
+                _versionSchema = "Schema";
 
                 var inputArgs = new[]
                 {
                     "--version", "100",
                     "--Mode", "Apply",
                     "--CONNECTION-STRING", _connectionString,
-                    "--migrations", _migrationsAssembly
+                    "--migrations", _migrationsAssembly,
+                    "--version-schema", _versionSchema
                 };
 
                 _result = Settings.LoadFromArgs(inputArgs);
@@ -38,6 +41,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 Assert.That(_result.MigrateToLatest, Is.False);
                 Assert.That(_result.Mode, Is.EqualTo(Mode.Apply));
                 Assert.That(_result.MigrationAssemblyPath, Is.EqualTo(_migrationsAssembly));
+                Assert.That(_result.VersionTableSchema, Is.EqualTo(_versionSchema));
             }
         }
 
@@ -105,6 +109,7 @@ namespace Simple.Migrations.ConsoleRunner.UnitTests
                 Assert.That(_result.MigrateToLatest, Is.True);
                 Assert.That(_result.Mode, Is.EqualTo(Mode.Apply));
                 Assert.That(_result.MigrationAssemblyPath, Is.EqualTo(_migrationsAssembly));
+                Assert.That(_result.VersionTableSchema, Is.EqualTo("dbo"));
             }
         }
     }
