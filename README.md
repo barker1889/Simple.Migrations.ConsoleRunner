@@ -24,4 +24,4 @@ Run via a command line. The command line accepts the following parameters
   * *"noop"* will just display the changes. No migrations will be applied. A version table will be created if it doesn't exist
   * *"apply"* will actually run the migrations
 * --migrations: This is the path to the dll that contains the migrations. It can be absolute or relative.
-* --version-schema: (optional) The schema to place the version history table in
+* --version-schema: (optional) The schema to place the version history table in - defaults to dbo
