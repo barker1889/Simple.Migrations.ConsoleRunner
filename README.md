@@ -17,10 +17,11 @@ Requires the database to be created. I'd suggest specifying the name of the data
 
 Either compile the runner from source or add it via nuget - https://www.nuget.org/packages/Simple.Migrations.ConsoleRunner/1.0.0
 
-Run via a command line. The command line requires the following parameters
+Run via a command line. The command line accepts the following parameters
 * --connection-string: SQL Server connection string e.g "Server=.;Trusted_Connection=True;Database=MyTestDb;"
 * --version: The migration number
 * --mode: Either NoOp or Apply
   * *"noop"* will just display the changes. No migrations will be applied. A version table will be created if it doesn't exist
   * *"apply"* will actually run the migrations
 * --migrations: This is the path to the dll that contains the migrations. It can be absolute or relative.
+* --version-schema: (optional) The schema to place the version history table in
